@@ -15,6 +15,6 @@ export const setUserInfo = data => {
 };
 
 // user logout & clear localstorage data
-export function userLogo() {
+export const userLogout = () => {
   localStorage.clear();
-}
+};

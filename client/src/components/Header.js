@@ -20,37 +20,43 @@ import {
   AlertDialogBody,
   AlertDialogFooter,
 } from '@chakra-ui/react';
-import { MdBookmarkBorder, MdControlPoint } from 'react-icons/md';
+import { MdBookmarkBorder } from 'react-icons/md';
 import { BsClipboardData, BsBell } from 'react-icons/bs';
-// import { useNavigate } from '@reach/router';
+import { useHistory } from 'react-router-dom';
 
 import { ColorModeSwitcher } from '../ColorModeSwitcher';
-// import { userLogout } from '../lib/user';
+import { userLogout } from '../utils/user';
 
 const navigationLinks = [
-  { id: 1, name: 'LinkedIn', url: 'https://www.chenxii.xyz' },
-  { id: 2, name: 'GitHub', url: 'https://www.chenxii.xyz' },
-  { id: 3, name: 'Personal Website', url: 'https://www.chenxii.xyz' },
+  {
+    id: 1,
+    name: 'LinkedIn',
+    url: 'https://www.linkedin.com/in/chenxi-cheng-42a564159/',
+  },
+  { id: 2, name: 'GitHub', url: 'https://github.com/ChenxiiCheng' },
+  { id: 3, name: 'Website', url: 'https://www.chenxii.xyz' },
 ];
-
-// const newFeatureLinkImage = "https://assets.leetcode-cn.com/support/new.svg"
 
 export const Header = () => {
   const navigationBarBg = useColorModeValue('white', '#1A202C');
-  const navigationBarColor = useColorModeValue('rgba(38, 38, 38, 1)', 'white');
+  const navigationBarColor = useColorModeValue(
+    'rgba(35, 35, 35, 0.8)',
+    'white'
+  );
   const navigationBarBorderBottom = useColorModeValue(
     'rgba(240, 240, 240, 1)',
     '#2D3748'
   );
+  const TODOButtonTextColor = useColorModeValue('#0073e6', 'white');
 
-  //   const navigate = useNavigate();
+  const history = useHistory();
   const [alertOpen, setAlertOpen] = useState(false);
   const cancelRef = useRef(null);
 
   const handleUserLogout = () => {
-    // userLogout();
+    userLogout();
     setAlertOpen(false);
-    // navigate('login');
+    history.push('/login');
   };
 
   return (
@@ -60,7 +66,6 @@ export const Header = () => {
       fontWeight="450"
       color={navigationBarColor}
       bg={navigationBarBg}
-      data-testid="navigationBar"
     >
       <Box
         d="flex"
@@ -74,36 +79,26 @@ export const Header = () => {
         py="6px"
         position="relative"
       >
-        <HStack spacing="30px" data-testid="links">
+        <HStack spacing="30px">
           {navigationLinks.map(link => (
             <Link
               key={link.id}
               href={link.url}
               isExternal
-              _hover={{ textColor: 'rgba(34, 34, 34, 1)', fontWeight: 400 }}
+              _hover={{ textColor: '#0073e6', fontWeight: 500 }}
             >
               <Text cursor="pointer">{link.name}</Text>
             </Link>
           ))}
         </HStack>
-        <HStack spacing="30px">
+        <HStack spacing="34px">
           <Button
             size="sm"
             leftIcon={<MdBookmarkBorder />}
-            colorScheme="teal"
+            color={TODOButtonTextColor}
             variant="outline"
             cursor="pointer"
-            data-testid="btn__download"
-          >
-            TODO
-          </Button>
-          <Button
-            size="sm"
-            leftIcon={<MdControlPoint />}
-            colorScheme="yellow"
-            variant="outline"
-            cursor="pointer"
-            data-testid="btn__premium"
+            boxShadow="0 2px 6px 0 rgba(32, 92, 146, 0.25)"
           >
             TODO
           </Button>
@@ -112,20 +107,11 @@ export const Header = () => {
               size={18}
               cursor="pointer"
               color="rgba(140, 140, 140, 1)"
-              data-testid="icon__clipboard"
             />
           </Box>
           <Box _hover={{ color: 'rgba(89, 89, 89, 1)' }}>
-            <BsBell
-              size={18}
-              cursor="pointer"
-              color="rgba(140, 140, 140, 1)"
-              data-testid="icon__bell"
-            />
+            <BsBell size={18} cursor="pointer" color="rgba(140, 140, 140, 1)" />
           </Box>
-          {/* <Avatar size="xs" cursor="pointer" data-testid="avatar">
-            <AvatarBadge boxSize="1em" bg="green.500" />
-          </Avatar> */}
           <Menu>
             <MenuButton
               as={Button}
@@ -137,12 +123,14 @@ export const Header = () => {
               _active={{ bg: '' }}
               _focus={{ boxShadow: 'none' }}
             >
-              <Avatar size="xs" cursor="pointer" data-testid="avatar">
+              <Avatar size="xs" cursor="pointer">
                 <AvatarBadge boxSize="1em" bg="green.500" />
               </Avatar>
             </MenuButton>
             <MenuList>
-              <MenuItem onClick={() => setAlertOpen(true)}>Logout</MenuItem>
+              <MenuItem onClick={() => setAlertOpen(true)}>
+                <Text fontWeight="450">Logout</Text>
+              </MenuItem>
             </MenuList>
           </Menu>
           <ColorModeSwitcher />
